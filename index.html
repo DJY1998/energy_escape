@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Energy Escape Room</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<div class="container">
+
+  <h1>🔒 ENERGY ESCAPE ROOM</h1>
+  <p class="subtitle">
+    Vous auditez des bilans d’énergie : seules les hypothèses cohérentes et les valeurs calculées ouvrent les portes.
+  </p>
+  <p class="mystery">
+    Cohorte 202 OS : chaque binôme doit valider un protocole énergie-puissance (choix des forces conservatives/non-conservatives, bilans, pertes). Vos réponses sont comparées à des mesures de labo simulées; déclenchez le chrono quand vous êtes prêts.
+  </p>
+  <div class="topline">
+    <div class="timer" id="timer">00:00</div>
+  </div>
+
+  <!-- SALLE -->
+  <div id="room"></div>
+
+  <div class="controls">
+    <button id="start" onclick="startTimer()">COMMENCER</button>
+    <button id="validate" onclick="check()">DEVEROUILLER</button>
+  </div>
+  <p id="feedback"></p>
+
+</div>
+
+<button id="reset" class="reset-corner" onclick="resetGame()">RESET</button>
+<button id="skip" class="skip-corner ghost" title="Sauter une étape (mot de passe)" onclick="skipLevel()">➜</button>
+
+<script src="game.js"></script>
+</body>
+</html>
