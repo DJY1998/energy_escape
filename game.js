@@ -30,24 +30,49 @@ const themes = [
   { primary: "#3ddfff", glow: "rgba(61,223,255,0.35)", bg1: "#0a1620", bg2: "#02070b", accent: "#e2f9ff" }
 ];
 
+
 const rooms = [
 
 /* ===============================
-   SALLE 1 – Potentiel quadratique
+   SALLE 1 – QCM ÉNERGIE (concepts)
    =============================== */
 {
   html: `
   <div class="room">
     <h2>🧩 SALLE 1</h2>
-    <p>QCM ÉNERGIE avancé (cocher toutes les affirmations correctes)</p>
-    <label><input type="checkbox" id="h1"> Travail d’une force conservative indépendant du chemin.</label><br>
-    <label><input type="checkbox" id="h2"> En champ uniforme : ΔEp = - m g Δz.</label><br>
-    <label><input type="checkbox" id="h3"> Si ∑W(non cons.) = 0 ⇒ Em se conserve.</label><br>
-    <label><input type="checkbox" id="h4"> Puissance instantanée d’une force : P = F·v.</label><br>
-    <label><input type="checkbox" id="h5"> Force ⟂ vitesse ⇒ Ec inchangée.</label><br>
-    <label><input type="checkbox" id="h6"> Les frottements solides sont modélisables par un potentiel.</label><br>
-    <label><input type="checkbox" id="h7"> Si W<sub>tot</sub>=0, la norme de la vitesse reste identique.</label><br>
-    <label><input type="checkbox" id="h8"> Toute force admet une énergie potentielle associée.</label>
+    <p>QCM ÉNERGIE — cocher toutes les affirmations correctes.</p>
+
+    <label><input type="checkbox" id="h1">
+      Le travail d’une force conservative est indépendant du chemin.
+    </label><br>
+
+    <label><input type="checkbox" id="h2">
+      En champ uniforme (axe vertical vers le haut) : ΔEp = m·g·Δz.
+    </label><br>
+
+    <label><input type="checkbox" id="h3">
+      Si ∑W(non conservatives) = 0, l’énergie mécanique se conserve.
+    </label><br>
+
+    <label><input type="checkbox" id="h4">
+      La puissance instantanée d’une force est P = F·v.
+    </label><br>
+
+    <label><input type="checkbox" id="h5">
+      Si une force est toujours perpendiculaire à la vitesse, Ec reste constante.
+    </label><br>
+
+    <label><input type="checkbox" id="h6">
+      Les frottements solides peuvent être modélisés par une énergie potentielle.
+    </label><br>
+
+    <label><input type="checkbox" id="h7">
+      Si le travail total des forces est nul, la norme de la vitesse ne change pas.
+    </label><br>
+
+    <label><input type="checkbox" id="h8">
+      Toute force admet une énergie potentielle associée.
+    </label>
   </div>
   `,
   check: () =>
@@ -55,116 +80,127 @@ const rooms = [
 },
 
 /* ===============================
-   SALLE 2 – Puissance constante
+   SALLE 2 – Cercle rugueux (μ)
    =============================== */
 {
   html: `
   <div class="room">
     <h2>🧩 SALLE 2</h2>
-    <p>Force motrice de puissance constante : P = 450 W, m = 30 kg, t = 4 s.</p>
+    <p>
+      Bloc de masse <b>0.30 kg</b> sur table horizontale rugueuse.
+      Trajectoire circulaire de rayon <b>1.0 m</b>.
+      Vitesse : 5.8 m/s → 4.6 m/s en un tour.
+    </p>
 
-    <p>Hypothèses (cocher si oui)</p>
-    <label><input type="checkbox" id="h1"> Fnc</label>
-    <label><input type="checkbox" id="h2"> Em conservée</label>
+    <p>Hypothèses</p>
+    <label><input type="checkbox" id="h1"> Force non conservative</label>
+    <label><input type="checkbox" id="h2"> Énergie mécanique conservée</label>
     <label><input type="checkbox" id="h3"> Bilan suffisant</label>
     <label><input type="checkbox" id="h4"> ΔEc requis</label>
 
-    <p>Résultats</p>
-    v <input type="text" inputmode="decimal" id="r1"> m/s<br>
-    x <input type="text" inputmode="decimal" id="r2"> m
+    <p>Résultat</p>
+    μ <input type="text" inputmode="decimal" id="r1">
   </div>
   `,
   check: () =>
     okBits(decodeBits("WzE0LDEyLDE0LDE0XQ==")) &&
     (() => {
-      const [a,b] = decodeNums("WzE0Mi4zNSwzNzkuNl0=");
-      return okNum("r1",a) && okNum("r2",b);
+      const [a] = decodeNums("WzEuMjM1XQ==");
+      return okNum("r1",a);
     })()
 },
 
 /* ===============================
-   SALLE 3 – Frottement linéaire
+   SALLE 3 – Pente inclinée
    =============================== */
 {
   html: `
   <div class="room">
     <h2>🧩 SALLE 3</h2>
-    <p>Trajectoire avec frottement linéaire f(x)=2.5x (N), masse 2.0 kg, v₀=6.0 m/s.</p>
+    <p>
+      Enfant de masse <b>30 kg</b> glissant depuis une hauteur
+      <b>2.1 m</b> sur une pente de <b>28°</b>.
+      Coefficient de frottement μ = 0.10.
+    </p>
 
-    <p>Hypothèses (cocher si oui)</p>
-    <label><input type="checkbox" id="h1"> Fnc</label>
-    <label><input type="checkbox" id="h2"> Em conservée</label>
+    <p>Hypothèses</p>
+    <label><input type="checkbox" id="h1"> Force non conservative</label>
+    <label><input type="checkbox" id="h2"> Énergie mécanique conservée</label>
     <label><input type="checkbox" id="h3"> Bilan suffisant</label>
     <label><input type="checkbox" id="h4"> ΔEc requis</label>
 
-    <p>Résultats</p>
-    xₘₐₓ <input type="text" inputmode="decimal" id="r1"> m<br>
-    Wf <input type="text" inputmode="decimal" id="r2"> J
+    <p>Résultat</p>
+    v en bas <input type="text" inputmode="decimal" id="r1"> m/s
   </div>
   `,
   check: () =>
     okBits(decodeBits("WzE0LDEyLDE0LDE0XQ==")) &&
     (() => {
-      const [a,b] = decodeNums("WzY5LjgxLC00Njhd");
-      return okNum("r1",a) && okNum("r2",b);
+      const [a] = decodeNums("Wzc0LjFd");
+      return okNum("r1",a);
     })()
 },
 
 /* ===============================
-   SALLE 4 – Pente + frottement
+   SALLE 4 – Puissance dissipée
    =============================== */
 {
   html: `
   <div class="room">
     <h2>🧩 SALLE 4</h2>
-    <p>Pente 20°, L=6.0 m, m=5.0 kg, v₀=2.0 m/s, μ=0.20 (frottement constant).</p>
+    <p>
+      Automobile de masse <b>1400 kg</b> roulant à <b>14.8 m/s</b>
+      s’arrête complètement en <b>0.25 s</b>.
+    </p>
 
-    <p>Hypothèses (cocher si oui)</p>
-    <label><input type="checkbox" id="h1"> Fnc</label>
-    <label><input type="checkbox" id="h2"> Em conservée</label>
+    <p>Hypothèses</p>
+    <label><input type="checkbox" id="h1"> Force non conservative</label>
+    <label><input type="checkbox" id="h2"> Énergie mécanique conservée</label>
     <label><input type="checkbox" id="h3"> Bilan suffisant</label>
     <label><input type="checkbox" id="h4"> ΔEc requis</label>
 
-    <p>Résultats</p>
-    v en bas <input type="text" inputmode="decimal" id="r1"> m/s<br>
-    Wf <input type="text" inputmode="decimal" id="r2"> J
+    <p>Résultat</p>
+    P moyenne dissipée <input type="text" inputmode="decimal" id="r1"> W
   </div>
   `,
   check: () =>
     okBits(decodeBits("WzE0LDEyLDE0LDE0XQ==")) &&
     (() => {
-      const [a,b] = decodeNums("WzYxLjIzLC03MTguOV0=");
-      return okNum("r1",a) && okNum("r2",b);
+      const [a] = decodeNums("Wzc5NTYwMDBd");
+      return okNum("r1",a);
     })()
 },
 
 /* ===============================
-   SALLE 5 – Chute avec pertes
+   SALLE 5 – Cercle rugueux (arrêt)
    =============================== */
 {
   html: `
   <div class="room">
     <h2>🧩 SALLE 5</h2>
-    <p>Chute contrôlée : h=8.0 m, m=50 kg, v₀=0, pertes par frottement 600 J.</p>
+    <p>
+      Bloc de masse <b>1.8 kg</b> sur table horizontale rugueuse, trajectoire circulaire de rayon <b>1.0 m</b>.<br>
+      Vitesse initiale : <b>7.5 m/s</b>. Après une révolution complète, la vitesse vaut <b>5.9 m/s</b>.
+    </p>
 
-    <p>Hypothèses (cocher si oui)</p>
-    <label><input type="checkbox" id="h1"> Fnc</label>
-    <label><input type="checkbox" id="h2"> Em conservée</label>
+    <p>Hypothèses</p>
+    <label><input type="checkbox" id="h1"> Force non conservative</label>
+    <label><input type="checkbox" id="h2"> Énergie mécanique conservée</label>
     <label><input type="checkbox" id="h3"> Bilan suffisant</label>
     <label><input type="checkbox" id="h4"> ΔEc requis</label>
 
-    <p>Résultats</p>
-    v à l'arrivée <input type="text" inputmode="decimal" id="r1"> m/s<br>
-    Ec finale <input type="text" inputmode="decimal" id="r2"> J
+    <p>Résultat</p>
+    Révolutions complètes supplémentaires avant arrêt <input type="text" inputmode="decimal" id="r1">
   </div>
   `,
   check: () =>
     okBits(decodeBits("WzE0LDEyLDE0LDE0XQ==")) &&
     (() => {
-      const [a,b] = decodeNums("WzE1MC4wMiw0MzIxMl0=");
-      return okNum("r1",a) && okNum("r2",b);
+      const [a] = decodeNums("WzIxLjA2XQ==");
+      return okNum("r1",a);
     })()
 }
+
 ];
 
 
