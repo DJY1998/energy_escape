@@ -18,7 +18,14 @@
     Cohorte 202 OS : chaque binôme doit valider un protocole énergie-puissance (choix des forces conservatives/non-conservatives, bilans, pertes). Vos réponses sont comparées à des mesures de labo simulées; déclenchez le chrono quand vous êtes prêts.
   </p>
   <div class="topline">
+    <div class="topline-actions">
+      <button id="reset" class="reset-inline" onclick="resetGame()">R</button>
+      <button id="skip" class="skip-inline ghost" title="Sauter une étape (mot de passe)" onclick="skipLevel()">➜</button>
+    </div>
     <div class="timer" id="timer">00:00</div>
+  </div>
+  <div class="progress">
+    <div class="progress-bar" id="progress-bar"></div>
   </div>
 
   <!-- SALLE -->
@@ -31,9 +38,6 @@
   <p id="feedback"></p>
 
 </div>
-
-<button id="reset" class="reset-corner" onclick="resetGame()">RESET</button>
-<button id="skip" class="skip-corner ghost" title="Sauter une étape (mot de passe)" onclick="skipLevel()">➜</button>
 
 <script src="game.js"></script>
 </body>

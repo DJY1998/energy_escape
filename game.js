@@ -10,7 +10,7 @@ const introHtml = `
   <div class="room intro">
     <h2>🧪 Briefing 202 OS</h2>
     <p>Mission : valider des scénarios énergie–puissance issus de nos bancs d’essai. Pour chaque salle, sélectionnez les forces conservatives / non conservatives, les pertes, puis calculez Ec, Ep ou les distances attendues. Un seul jeu de réponses ouvre la porte.</p>
-    <p>Quand vous appuyez sur COMMENCER, le chronomètre global démarre. Terminez toutes les salles pour figer votre temps; RESET remet tout à zéro.</p>
+    <p>Quand vous appuyez sur COMMENCER, le chronomètre global démarre. Terminez toutes les salles pour figer votre temps.</p>
   </div>
 `;
 
@@ -93,17 +93,15 @@ const rooms = [
     </p>
 
     <p>Hypothèses</p>
-    <label><input type="checkbox" id="h1"> Force non conservative</label>
+    <label><input type="checkbox" id="h1"> Force non conservative présente</label>
     <label><input type="checkbox" id="h2"> Énergie mécanique conservée</label>
-    <label><input type="checkbox" id="h3"> Bilan suffisant</label>
-    <label><input type="checkbox" id="h4"> ΔEc requis</label>
 
     <p>Résultat</p>
     μ <input type="text" inputmode="decimal" id="r1">
   </div>
   `,
   check: () =>
-    okBits(decodeBits("WzE0LDEyLDE0LDE0XQ==")) &&
+    okBits(decodeBits("WzE0LDEyXQ==")) &&
     (() => {
       const [a] = decodeNums("WzEuMjM1XQ==");
       return okNum("r1",a);
@@ -124,17 +122,15 @@ const rooms = [
     </p>
 
     <p>Hypothèses</p>
-    <label><input type="checkbox" id="h1"> Force non conservative</label>
+    <label><input type="checkbox" id="h1"> Force non conservative présente</label>
     <label><input type="checkbox" id="h2"> Énergie mécanique conservée</label>
-    <label><input type="checkbox" id="h3"> Bilan suffisant</label>
-    <label><input type="checkbox" id="h4"> ΔEc requis</label>
 
     <p>Résultat</p>
     v en bas <input type="text" inputmode="decimal" id="r1"> m/s
   </div>
   `,
   check: () =>
-    okBits(decodeBits("WzE0LDEyLDE0LDE0XQ==")) &&
+    okBits(decodeBits("WzE0LDEyXQ==")) &&
     (() => {
       const [a] = decodeNums("Wzc0LjFd");
       return okNum("r1",a);
@@ -154,17 +150,15 @@ const rooms = [
     </p>
 
     <p>Hypothèses</p>
-    <label><input type="checkbox" id="h1"> Force non conservative</label>
+    <label><input type="checkbox" id="h1"> Force non conservative présente</label>
     <label><input type="checkbox" id="h2"> Énergie mécanique conservée</label>
-    <label><input type="checkbox" id="h3"> Bilan suffisant</label>
-    <label><input type="checkbox" id="h4"> ΔEc requis</label>
 
     <p>Résultat</p>
     P moyenne dissipée <input type="text" inputmode="decimal" id="r1"> W
   </div>
   `,
   check: () =>
-    okBits(decodeBits("WzE0LDEyLDE0LDE0XQ==")) &&
+    okBits(decodeBits("WzE0LDEyXQ==")) &&
     (() => {
       const [a] = decodeNums("Wzc5NTYwMDBd");
       return okNum("r1",a);
@@ -184,17 +178,15 @@ const rooms = [
     </p>
 
     <p>Hypothèses</p>
-    <label><input type="checkbox" id="h1"> Force non conservative</label>
+    <label><input type="checkbox" id="h1"> Force non conservative présente</label>
     <label><input type="checkbox" id="h2"> Énergie mécanique conservée</label>
-    <label><input type="checkbox" id="h3"> Bilan suffisant</label>
-    <label><input type="checkbox" id="h4"> ΔEc requis</label>
 
     <p>Résultat</p>
     Révolutions complètes supplémentaires avant arrêt <input type="text" inputmode="decimal" id="r1">
   </div>
   `,
   check: () =>
-    okBits(decodeBits("WzE0LDEyLDE0LDE0XQ==")) &&
+    okBits(decodeBits("WzE0LDEyXQ==")) &&
     (() => {
       const [a] = decodeNums("WzIxLjA2XQ==");
       return okNum("r1",a);
@@ -213,6 +205,7 @@ function loadRoom() {
   const feedbackEl = document.getElementById("feedback");
   const validateBtn = document.getElementById("validate");
   const started = hasStarted();
+  updateProgress();
 
   if (!started) {
     document.getElementById("room").innerHTML = introHtml;
@@ -222,12 +215,15 @@ function loadRoom() {
   }
 
   if (level >= rooms.length) {
+    document.body.classList.add("finale");
     document.getElementById("room").innerHTML =
-      "<h2>🏁 LABORATOIRE DÉVERROUILLÉ</h2><p>Modélisation maîtrisée.</p>";
+      "<div class='room final-room'><h2>🏁 LABORATOIRE DÉVERROUILLÉ</h2><p>Modélisation maîtrisée.</p><p class='congrats'>Bravo, toutes les portes sont ouvertes.</p></div>";
     feedbackEl.innerText = "Session terminée";
     if (validateBtn) validateBtn.disabled = true;
     finishTimer();
     setButtons();
+    updateProgress(true);
+    triggerFinale();
     return;
   }
 
@@ -264,6 +260,12 @@ function applyTheme(idx) {
 function triggerUnlock() {
   document.body.classList.add("unlocking");
   setTimeout(() => document.body.classList.remove("unlocking"), 850);
+}
+
+function triggerFinale() {
+  document.body.classList.add("finale");
+  document.body.classList.add("flash");
+  setTimeout(() => document.body.classList.remove("flash"), 1700);
 }
 
 function triggerError() {
@@ -312,6 +314,7 @@ function startTimer(startAt) {
   if (timerEl) timerEl.classList.remove("warning");
   const start = startAt ?? Date.now();
   timerRunning = true;
+  document.body.classList.add("started");
   localStorage.setItem(timerStartKey, String(start));
   localStorage.removeItem(timerFinalKey);
   updateTimer();
@@ -368,8 +371,16 @@ function setButtons() {
   }
 }
 
+function updateProgress(forceComplete=false) {
+  const bar = document.getElementById("progress-bar");
+  if (!bar) return;
+  const total = rooms.length;
+  const pct = forceComplete ? 1 : Math.min(level / total, 1);
+  bar.style.width = `${(pct*100).toFixed(1)}%`;
+}
+
 function resetGame() {
-  const ok = confirm("Valider pour confirmer le reset complet ?");
+  const ok = confirm("Valider pour remettre toute la session à zéro ?");
   if (!ok) return;
   stopTimer();
   timerFinished = false;
@@ -382,7 +393,10 @@ function resetGame() {
   const timerEl = document.getElementById("timer");
   if (timerEl) timerEl.classList.remove("warning");
   document.body.classList.remove("timeup");
+  document.body.classList.remove("finale");
+  document.body.classList.remove("started");
   setButtons();
+  updateProgress();
   loadRoom();
 }
 
