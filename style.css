@@ -52,11 +52,59 @@ h1 {
   margin: 0 auto;
 }
 
+body.started .mystery {
+  display: none;
+}
+
 .topline {
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  gap: 12px;
+  gap: 8px;
   align-items: center;
+}
+
+.topline-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+}
+
+.reset-inline,
+.skip-inline {
+  padding: 2px 4px;
+  font-size: 0.7rem;
+  border-radius: 4px;
+  min-width: 0;
+  height: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.skip-inline {
+  width: 52px;
+  padding: 6px;
+}
+
+.progress {
+  width: min(640px, 100%);
+  height: 12px;
+  border: 1px solid var(--primary);
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(0,0,0,0.6);
+  box-shadow: 0 6px 16px var(--glow);
+  margin: 0 auto;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  transition: width 200ms ease;
 }
 
 .controls {
@@ -77,6 +125,8 @@ h1 {
   border: 1px solid var(--primary);
   box-shadow: 0 10px 24px var(--glow);
   z-index: 10;
+  width: auto;
+  min-width: 0;
 }
 
 .skip-corner {
@@ -92,6 +142,8 @@ h1 {
   background: rgba(0,0,0,0.75);
   box-shadow: 0 10px 24px var(--glow);
   z-index: 10;
+  width: 44px;
+  min-width: 0;
 }
 
 .timer {
@@ -200,6 +252,13 @@ button {
   transition: transform 120ms ease, box-shadow 120ms ease, filter 120ms ease;
 }
 
+.reset-corner,
+.skip-corner {
+  width: auto;
+  min-width: unset;
+  height: auto;
+}
+
 button:hover {
   transform: translateY(-1px);
   box-shadow: 0 8px 20px rgba(0, 255, 204, 0.25);
@@ -249,6 +308,58 @@ body.unlocking::after {
   animation: slideGlow 0.8s ease;
 }
 
+.finale.flash::after {
+  content: "";
+  position: fixed;
+  inset: -30%;
+  background: radial-gradient(circle at center, rgba(255,255,255,0.2), rgba(0,0,0,0));
+  pointer-events: none;
+  animation: superNova 1.6s ease;
+  mix-blend-mode: screen;
+}
+
+.finale .container {
+  animation: pulse 1.4s ease, lift 1s ease;
+}
+
+.finale #room {
+  animation: slideGlow 1s ease, halo 1.2s ease;
+  box-shadow: 0 20px 60px var(--glow);
+}
+
+body.finale {
+  --primary: #7aff8a;
+  --accent: #b5ffc0;
+  --glow: rgba(122,255,138,0.4);
+  --bg1: #0b2b16;
+  --bg2: #021108;
+  --text: #dfffe2;
+  background: radial-gradient(circle at 20% 20%, #0b2b16, #021108);
+  color: #dfffe2;
+}
+
+body.finale h1,
+body.finale .subtitle,
+body.finale .mystery {
+  display: none;
+}
+
+body.finale .room {
+  border: 2px solid var(--primary);
+  background: rgba(0,0,0,0.6);
+  box-shadow: 0 10px 30px var(--glow);
+}
+
+.finale #room h2 {
+  font-size: 2rem;
+  text-shadow: 0 0 12px rgba(122,255,138,0.7), 0 0 28px rgba(122,255,138,0.5);
+  letter-spacing: 0.05em;
+}
+
+.finale #room p {
+  text-shadow: 0 0 10px rgba(122,255,138,0.35);
+}
+
 .error::after {
   content: "";
   position: fixed;
@@ -280,6 +391,15 @@ body.unlocking::after {
   box-shadow: 0 8px 20px rgba(255,77,77,0.35);
 }
 
+.finale #timer {
+  font-size: 2.2rem;
+  padding: 16px 22px;
+  animation: blink 1s step-start infinite;
+  border-color: #7aff8a;
+  color: #7aff8a;
+  box-shadow: 0 10px 28px rgba(122,255,138,0.4);
+}
+
 @media (max-width: 700px) {
   h1 {
     font-size: 1.8rem;
@@ -307,12 +427,25 @@ body.unlocking::after {
 
   .reset-corner {
     right: 10px;
-    bottom: 10px;
+    top: 10px;
+    padding: 6px 10px;
+    font-size: 0.8rem;
+    box-shadow: 0 6px 14px var(--glow);
+    width: auto;
   }
 
   .skip-corner {
     left: 10px;
-    bottom: 10px;
+    top: 10px;
+    width: 36px;
+    height: 36px;
+    padding: 6px;
+    box-shadow: 0 6px 14px var(--glow);
+    min-width: 0;
+  }
+
+  .progress {
+    width: 100%;
   }
 }
 
@@ -334,6 +467,27 @@ body.unlocking::after {
   100% { transform: translateY(0); box-shadow: 0 10px 30px var(--glow); }
 }
 
+@keyframes superNova {
+  0% { opacity: 0; transform: scale(0.8); }
+  30% { opacity: 1; transform: scale(1.08); }
+  100% { opacity: 0; transform: scale(1.35); }
+}
+
+@keyframes lift {
+  0% { transform: translateY(6px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes halo {
+  0% { box-shadow: 0 0 0 rgba(0,0,0,0); }
+  50% { box-shadow: 0 24px 70px var(--glow); }
+  100% { box-shadow: 0 18px 50px var(--glow); }
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  50.01%, 100% { opacity: 0.3; }
+}
 @keyframes flashRed {
   0% { opacity: 0; transform: scale(0.9); }
   30% { opacity: 0.9; transform: scale(1.03); }
