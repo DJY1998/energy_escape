@@ -47,7 +47,7 @@ const rooms = [
     </label><br>
 
     <label><input type="checkbox" id="h2">
-      En champ uniforme (axe vertical vers le haut) : ΔEp = m·g·Δz.
+      En champ uniforme (axe vertical vers le haut) : ΔEp = -W_cons.
     </label><br>
 
     <label><input type="checkbox" id="h3">
