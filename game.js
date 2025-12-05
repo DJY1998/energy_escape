@@ -244,7 +244,10 @@ function okBits(target) {
 
 function okNum(id,val) {
   const raw = document.getElementById(id).value.replace(",",".");
-  return Math.abs(parseFloat(raw)-val) < 0.1;
+  const num = parseFloat(raw);
+  if (Number.isNaN(num)) return false;
+  const tol = Math.max(0.1, Math.abs(val) * 0.01); // 1% or 0.1
+  return Math.abs(num - val) <= tol;
 }
 
 function applyTheme(idx) {
